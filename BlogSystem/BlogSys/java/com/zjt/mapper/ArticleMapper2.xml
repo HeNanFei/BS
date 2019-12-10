@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjt.mapper.ArticleMapper2" >
+  <select id="getTenAr" resultType="com.zjt.pojo.Article" parameterType="java.lang.String">
+    select * from article order by click desc limit 0,10;
+  </select>
+  <select id="getTenAr2" resultType="com.zjt.pojo.Article" parameterType="com.zjt.Util.Order">
+    select * from article order by #{click} desc limit ${first } ,${last };
+  </select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:component-scan base-package="com.zjt.controller"></context:component-scan>
+    <context:component-scan base-package="com.zjt.service"></context:component-scan>
+
+
+    <bean id="jss" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="protocol" value="smtp"></property>
+        <property name="host" value="smtp.qq.com"></property>
+        <property name="port" value="25"></property>
+        <property name="username" value="872060821@qq.com"></property>
+        <property name="password" value="meqkpnzokmmgbdfc"></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--上传文件的最大大小，单位为字节 -->
+        <property name="maxUploadSize" value="17367648787"></property>
+
+        <!-- 上传文件的编码 -->
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/new?characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="wcjb"></property>
+        <property name="validationQuery" value="SELECT 1"></property>
+        <property name="testOnBorrow" value="true"></property>
+    </bean>
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="typeAliasesPackage" value="com.zjt.pojo"></property>
+        <property name="mapperLocations" value="classpath:com/zjt/mapper/*.xml"></property>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                            supportMethodsArguments=true
+                            params=count=countSql
+                            autoRuntimeDialect=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+
+
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.zjt.mapper"></property>
+    </bean>
+</beans>

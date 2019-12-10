@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjt.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.zjt.pojo.Article" >
+    <id column="aid" property="aid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="writed" property="writed" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="VARCHAR" />
+    <result column="click" property="click" jdbcType="INTEGER" />
+    <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="content2" property="content2" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zjt.pojo.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    aid, username, writed, title, uid, status, attribute, click, imgUrl, content2
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.zjt.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zjt.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zjt.pojo.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zjt.pojo.Article" >
+    insert into article (aid, username, writed, 
+      title, uid, status, 
+      attribute, click, imgUrl, 
+      content2, content)
+    values (#{aid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{writed,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{attribute,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, 
+      #{content2,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zjt.pojo.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        aid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="writed != null" >
+        writed,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="attribute != null" >
+        attribute,
+      </if>
+      <if test="click != null" >
+        click,
+      </if>
+      <if test="imgurl != null" >
+        imgUrl,
+      </if>
+      <if test="content2 != null" >
+        content2,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="writed != null" >
+        #{writed,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        #{attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null" >
+        #{click,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zjt.pojo.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.aid != null" >
+        aid = #{record.aid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.writed != null" >
+        writed = #{record.writed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attribute != null" >
+        attribute = #{record.attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.click != null" >
+        click = #{record.click,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgurl != null" >
+        imgUrl = #{record.imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content2 != null" >
+        content2 = #{record.content2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update article
+    set aid = #{record.aid,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      writed = #{record.writed,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      attribute = #{record.attribute,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      imgUrl = #{record.imgurl,jdbcType=VARCHAR},
+      content2 = #{record.content2,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set aid = #{record.aid,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      writed = #{record.writed,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      attribute = #{record.attribute,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      imgUrl = #{record.imgurl,jdbcType=VARCHAR},
+      content2 = #{record.content2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjt.pojo.Article" >
+    update article
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="writed != null" >
+        writed = #{writed,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        attribute = #{attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null" >
+        click = #{click,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="content2 != null" >
+        content2 = #{content2,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zjt.pojo.Article" >
+    update article
+    set username = #{username,jdbcType=VARCHAR},
+      writed = #{writed,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      content2 = #{content2,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zjt.pojo.Article" >
+    update article
+    set username = #{username,jdbcType=VARCHAR},
+      writed = #{writed,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      content2 = #{content2,jdbcType=VARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <select id="getMaxClickAr" resultType="com.zjt.pojo.Article" >
+    select * from article where click = (select max(click) from article) limit 1;
+  </select>
+  <select id="getRestClickAr" resultType="com.zjt.pojo.Article">
+    select * from article where click not in(select max(click) from article) order by click desc limit 10;
+  </select>
+  <select id="getTenArticle" resultType="com.zjt.pojo.Article" parameterType="java.lang.String">
+      select * from article where attribute != '个人简介' or  attribute ='时光轴';
+  </select>
+  <select id="getLatestArticle" resultType="com.zjt.pojo.Article" parameterType="java.lang.String">
+    select * from article where attribute != '个人简介' or  attribute ='时光轴' order by writed desc limit 0,6;
+  </select>
+  <select id="getArticleByWrited" resultType="com.zjt.pojo.Article" parameterType="java.lang.String">
+    select * from article where attribute != '个人简介' or  attribute ='时光轴' order by writed desc;
+  </select>
+  <select id="getAllArticles" resultType="com.zjt.pojo.Article">
+    select * from article where attribute != '个人简介' or  attribute ='时光轴' order by aid desc
+  </select>
+  <select id="getTechBlog" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = '技术博客'
+  </select>
+  <select id="getSS" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = '碎言碎语'
+  </select>
+  <select id="getFootBallWorld" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = '足球世界'
+  </select>
+  <select id="getSecret" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = 'secret'
+  </select>
+  <select id="getPersonal" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = '个人简介'
+  </select>
+  <select id="getRecommend" resultType="com.zjt.pojo.Article">
+    select * from article where attribute = '站长推荐'
+  </select>
+  <select id="getTop" resultType="com.zjt.pojo.Article">
+    select * from article where attribute != '个人简介' or  attribute ='时光轴' order by click asc limit 1,3;
+  </select>
+  <select id="getTime" resultType="com.zjt.pojo.Article">
+    select * from article  order by aid DESC
+  </select>
+</mapper>
